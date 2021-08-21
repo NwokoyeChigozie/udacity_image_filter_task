@@ -43,6 +43,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
 // }
 
+// function for displaying image
 async function showImage(res:any, newPath : any) : Promise<boolean>{
   res.sendFile(newPath);
   return true
@@ -51,30 +52,30 @@ async function showImage(res:any, newPath : any) : Promise<boolean>{
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
     // res.send("try GET /filteredimage?image_url={{}}")
+
+    //collecting query parameter
     const imgUrl : string = req.query.image_url;
     
-
+    //checking whether parameter was specified
     if(typeof imgUrl != 'undefined' && imgUrl.trim() != ""){
-      // res.send(`Your url: ${imgUrl}`);
+
+      //filtering image
       const newPath = await filterImageFromURL(imgUrl);
-      console.log(`Image Filtered ${newPath}`);
+
+      //collecting file paths in array
       const urlArray : Array<string> = [];
       urlArray.push(newPath);
-      console.log("Array Created");
-      // res.send(newPath);
-      console.log("Returning Image");
-      const fileNameArray = newPath.split("tmp");
-      const fileName = fileNameArray[fileNameArray.length - 1]
-      // res.send(fileName);
+
+      // selecting file name
+      const fileNameArray : any = newPath.split("tmp");
+      const fileName : string = fileNameArray[fileNameArray.length - 1];
+
+      //displaying image
       let bol = false
-      bol = await showImage(res,newPath)
-      // await res.sendFile(newPath);
-      // fs.createReadStream('./image/demo.jpg').pipe(res);
-      console.log("Displayed Image");
+      bol = await showImage(res,newPath);
       
+      //deleting image files after 5 seconds
       setTimeout(function(){ deleteLocalFiles(urlArray); }, 5000);
-      
-      console.log("Files Deleted");
       
 
 
