@@ -9,7 +9,6 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
-.vscode/
 npm-debug.log*
 
 .idea/
@@ -39,3 +38,6 @@ venv/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
