@@ -45,13 +45,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
 // function for displaying image
 async function showImage(res:any, newPath : any) : Promise<boolean>{
-  res.sendFile(newPath);
+  res.status(200).sendFile(newPath);
   return true
 }
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
-    // res.send("try GET /filteredimage?image_url={{}}")
+     res.status(200).send("try GET /filteredimage?image_url={{}}")
+  } );
+
+
+  //filter Endpoint
+  //Filter User's image
+  app.get( "/filteredimage", async ( req, res ) => {
 
     //collecting query parameter
     const imgUrl : string = req.query.image_url;
@@ -67,11 +73,11 @@ async function showImage(res:any, newPath : any) : Promise<boolean>{
       urlArray.push(newPath);
 
       // selecting file name
-      const fileNameArray : any = newPath.split("tmp");
+      const fileNameArray :  Array<string> = newPath.split("tmp");
       const fileName : string = fileNameArray[fileNameArray.length - 1];
 
       //displaying image
-      let bol = false
+      let bol : boolean= false
       bol = await showImage(res,newPath);
       
       //deleting image files after 5 seconds
@@ -82,7 +88,8 @@ async function showImage(res:any, newPath : any) : Promise<boolean>{
 
 
     }else{
-      res.send("try GET /filteredimage?image_url={{}}")
+      res.status(400).send("Enter valid image query... \ntry GET /filteredimage?image_url={{}}")
+      
     }
   } );
   
